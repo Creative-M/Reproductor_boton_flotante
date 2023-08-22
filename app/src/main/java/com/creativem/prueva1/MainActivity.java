@@ -4,21 +4,39 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import android.media.AudioManager;
+import android.content.Context;
 
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
-     MediaPlayer mp1;
-     FloatingActionButton fabButton;
+    //web inicio
+    WebView miVisorWeb;
+    String url = "https://corario-infantil-ipu-7wtz.glide.page";
+    //web final
+    MediaPlayer mp1;
+    FloatingActionButton fabButton;
+    AudioManager audioManager;
+    AudioManager.OnAudioFocusChangeListener audioFocusChangeListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fabButton = findViewById(R.id.inicio); // ID del botón flotante
+        //web inicio
+        miVisorWeb = (WebView) findViewById(R.id.visorWeb);
+        final WebSettings ajustesVisorWeb = miVisorWeb.getSettings();
+        ajustesVisorWeb.setJavaScriptEnabled(true);
+        miVisorWeb.loadUrl(url);
+        //web final
+
+        // ID del botón flotante
+        fabButton = findViewById(R.id.inicio);
         fabButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -29,18 +47,39 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // Inicializar el AudioManager
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+
+        // Definir el listener de cambio de enfoque de audio
+        audioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+            @Override
+            public void onAudioFocusChange(int focusChange) {
+                if (focusChange == AudioManager.AUDIOFOCUS_LOSS) {
+                    // Detener la reproducción si se pierde el enfoque de audio
+                    detenerReproduccion();
+                }
+            }
+        };
+
+        // Solicitar el enfoque de audio
+        int result = audioManager.requestAudioFocus(audioFocusChangeListener,
+                AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN);
+
+        if (result == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+            // Si se obtiene el enfoque de audio, reproducir el audio
+            reproducir();
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (mp1 != null) {
-            mp1.release();
-            mp1 = null;
-        }
+        detenerReproduccion();
+        audioManager.abandonAudioFocus(audioFocusChangeListener);
     }
 
-    private void reproducir() {
+    public void reproducir() {
         if (mp1 == null) {
             mp1 = new MediaPlayer();
             try {
@@ -67,8 +106,6 @@ public class MainActivity extends AppCompatActivity {
             mp1 = null;
             fabButton.setImageResource(R.drawable.play); // Cambiar la imagen del botón flotante a "Reproducir"
         }
-
     }
-
-
 }
+
