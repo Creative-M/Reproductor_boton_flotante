@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
             reproducir();
         }
     }
-
     @Override
     protected void onStop() {
         super.onStop();
