@@ -10,7 +10,6 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import android.media.AudioManager;
 import android.content.Context;
-
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
