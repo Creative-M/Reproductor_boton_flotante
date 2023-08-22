@@ -9,18 +9,26 @@
     <WebView
         android:id="@+id/visorWeb"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/inicio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_marginTop="630dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginStart="340dp"
+        android:layout_marginBottom="40dp"
         android:onClick="reproducir"
         android:src="@drawable/play"
         app:backgroundTint="#FF9100"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintRight_toLeftOf="parent" />
+        app:layout_constraintEnd_toEndOf="@id/visorWeb"
+        app:layout_constraintBottom_toBottomOf="@id/visorWeb"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
