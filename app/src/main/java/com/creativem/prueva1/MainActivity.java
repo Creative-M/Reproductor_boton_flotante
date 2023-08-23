@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Toast;
@@ -26,6 +28,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Agregar animaciones
+        Animation animation1 = AnimationUtils.loadAnimation(this, R.anim.anim_arriba);
+        Animation animation2 = AnimationUtils.loadAnimation(this, R.anim.anim_abajo);
+
+
+
 
         //web inicio
         miVisorWeb = (WebView) findViewById(R.id.visorWeb);
